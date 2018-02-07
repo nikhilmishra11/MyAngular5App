@@ -1,0 +1,28 @@
+<div class="col-md-6 col-md-offset-3">
+    <h1>Hi {{currentUser.firstName}}!</h1>
+    <p>You're logged in with Angular 5!!</p>
+    <h3>All registered users:</h3>
+    
+
+    <table class="table table-bordered table-dark table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Username</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.username}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.emailId}}</td>
+            <td>edit</td>
+          </tr>
+        </tbody>
+      </table>
+    <p><a [routerLink]="['/login']" class="btn btn-danger">Logout</a></p>
+</div>
