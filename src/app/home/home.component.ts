@@ -16,26 +16,21 @@ export class HomeComponent implements OnInit {
  
     
     constructor(
-        private service:SharedService, 
+        private service: SharedService, 
         private userService: UserService,
-        private router:Router){
+        private router: Router) {
         this.service = service;
        
       }
     
     ngOnInit() {
         this.users = new Array<User>();
-        //console.log(this.service.getData());
-        this.currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-        //this.users.push(this.service.getData());
+        this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
         this.userService.getAll().subscribe(
             data => {
                 this.users = data;
-                //this.service.saveData(data);
-                //this.router.navigate(['home']);
             },
             error => {
-                //this.alertService.error(error);
                 this.loading = false;
             }
         );

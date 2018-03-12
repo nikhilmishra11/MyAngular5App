@@ -3,10 +3,13 @@ import { AuthenticationService } from '../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../services/user.shared.service';
+import { routerTransition } from '../router.animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
 
@@ -19,7 +22,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private service:SharedService
+        private service: SharedService
     ) { }
  
     ngOnInit() {
@@ -33,13 +36,13 @@ export class LoginComponent implements OnInit {
     
     login() {
         this.loading = true;
+        console.log('here');
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
-                data => {
-                    console.log(data);
-                    this.service.saveData(data);
-                    sessionStorage.setItem("currentUser", JSON.stringify(data));
-                    this.router.navigate(['home']);
+                () => {
+                    //console.log(data);
+                    this.router.navigate(['otp']);
+                    //this.router.navigate(['home']);
                 },
                 error => {
                     this.alertService.error(error);

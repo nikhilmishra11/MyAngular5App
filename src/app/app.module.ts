@@ -1,5 +1,6 @@
 import { routing } from './app-routing/app-routing';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Configuration } from './constants/app.configuration';
 import { SharedService } from './services/user.shared.service';
+import { EmailOtpComponent } from './email-otp/email-otp.component';
 
 
 @NgModule({
@@ -28,12 +30,14 @@ import { SharedService } from './services/user.shared.service';
     AlertComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    EmailOtpComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     routing,
      NgbModule.forRoot()
   ],

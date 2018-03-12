@@ -1,11 +1,10 @@
+import { User } from './../models/user';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 import { Configuration } from '../constants/app.configuration';
 import {RequestOptions, Request, RequestMethod, Headers} from '@angular/http';
-import { HttpParams } from '@angular/common/http/src/params';
-import { User } from '../models/user';
  
 @Injectable()
 export class AuthenticationService {
@@ -14,24 +13,29 @@ export class AuthenticationService {
     private actionUrl: string;
     
     constructor(private http: HttpClient, private _configuration: Configuration) {
-        this.actionUrl = _configuration.ServerWithApiUrl + 'login';
+        this.actionUrl = _configuration.ServerWithApiUrl;
      }
  
 
     login(username: string, password: string) {
-        //console.log(this.actionUrl+'/login');
-        console.log('username : '+username);
-        console.log('password : '+password);
+        console.log('username : ' + username);
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-       // let options = new RequestOptions({ headers: headers });
-        //let myParams = new HttpParams();
-        //myParams.set('username',username);
-        //myParams.set('password',password);
-        //let myParams = new HttpParams();
-        //myParams.set('username',username);
-        //myParams.set('password',password);
         let body = { 'username': username, 'password': password };
-        return this.http.post<User>(this.actionUrl, body, { headers : headers})
+        return this.http.post<string>(this.actionUrl + 'login', body, { headers : headers})
+            .map(response => { 
+                console.log(response);
+                return JSON.stringify(response);
+            });
+    }
+    
+    valideOtp(otp: string) {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        let myParams = new HttpParams();
+        console.log(otp);
+        myParams.set('otpnum', otp);
+        //let userkey: string = JSON.parse(sessionStorage.getItem('userkey'));
+        //let body = { 'otpnum': otp };
+        return this.http.get<User>(this.actionUrl + 'validateOtp', { headers : headers, params : {'otpnum': otp}})
             .map(user => {
                 // login successful if there's a jwt token in the response
                 if (user) {
@@ -42,9 +46,9 @@ export class AuthenticationService {
                 return user;
             });
     }
- 
+
+
     logout() {
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     }
 }
